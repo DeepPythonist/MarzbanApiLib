@@ -1,0 +1,73 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "marzbanapilib"
+version = "0.1.0"
+description = "A modern async Python client library for Marzban VPN panel API"
+readme = "README.md"
+authors = [
+    { name = "Mohammad Rasol Esfandiari", email = "mrasolesfandiari@gmail.com" }
+]
+license = { file = "LICENSE" }
+requires-python = ">=3.7"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8", 
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Framework :: AsyncIO",
+]
+keywords = ["marzban", "vpn", "api", "client", "async"]
+dependencies = [
+    "httpx>=0.24.0",
+    "pydantic>=2.0.0",
+    "aiofiles>=23.0.0",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/DeepPythonist/marzbanapilib"
+"Bug Tracker" = "https://github.com/DeepPythonist/marzbanapilib/issues"
+"Documentation" = "https://github.com/DeepPythonist/marzbanapilib#readme"
+"Source Code" = "https://github.com/DeepPythonist/marzbanapilib"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+    "pytest-asyncio>=0.21.0",
+    "black>=23.0",
+    "isort>=5.0",
+    "mypy>=1.0",
+    "flake8>=6.0",
+]
+
+[tool.setuptools]
+package-dir = {"" = "."}
+packages = ["marzbanapilib", "marzbanapilib.sections"]
+
+[tool.setuptools.package-data]
+marzbanapilib = ["py.typed"]
+
+[tool.black]
+line-length = 88
+target-version = ['py37', 'py38', 'py39', 'py310', 'py311']
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[tool.mypy]
+python_version = "3.7"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true 

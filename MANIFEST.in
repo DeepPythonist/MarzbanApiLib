@@ -1,0 +1,8 @@
+include LICENSE
+include README.md
+include requirements.txt
+include marzbanapilib/py.typed
+recursive-include marzbanapilib *.py
+global-exclude __pycache__
+global-exclude *.py[co]
+global-exclude .DS_Store

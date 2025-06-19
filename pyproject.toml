@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "marzbanapilib"
-version = "0.1.0"
+version = "0.2.0"
 description = "A modern async Python client library for Marzban VPN panel API"
 readme = "README.md"
 authors = [

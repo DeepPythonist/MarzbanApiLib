@@ -5,7 +5,7 @@ This library provides a modular and easy-to-use interface for interacting
 with the Marzban VPN panel through its REST API.
 """
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 __author__ = "Mohammad Rasol Esfandiari"
 __email__ = "mrasolesfandiari@gmail.com"
 __license__ = "MIT"

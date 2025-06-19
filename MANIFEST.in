@@ -1,5 +1,6 @@
 include LICENSE
 include README.md
+include CHANGELOG.md
 include requirements.txt
 include marzbanapilib/py.typed
 recursive-include marzbanapilib *.py

@@ -2,7 +2,7 @@
 Example usage of MarzbanAPILib
 
 This example demonstrates basic operations with the Marzban API:
-- Authentication
+- Authentication (both username/password and direct token methods)
 - Getting system statistics
 - Creating a new user
 - Listing users
@@ -159,6 +159,32 @@ async def manual_authentication_example():
         print("  ✅ Connection closed")
 
 
+async def direct_token_authentication_example():
+    """Example of authentication using pre-existing access token"""
+    print("\n🔑 Direct Token Authentication Example:")
+    
+    # In a real scenario, you would have obtained this token from a previous authentication
+    # or from secure storage. Here we first get a token for demonstration.
+    
+    # Step 1: Get a token using traditional method (for demo purposes)
+    async with MarzbanAPI("http://127.0.0.1:8000", "admin", "password") as temp_api:
+        print("  • Getting token for demonstration...")
+        demo_token = temp_api.token
+        print(f"  • Token obtained: {demo_token[:20]}...")
+    
+    # Step 2: Use the token directly for authentication
+    print("  • Using token for direct authentication:")
+    async with MarzbanAPI("http://127.0.0.1:8000", access_token=demo_token) as api:
+        print("  ✅ Authenticated directly with token!")
+        
+        # Use the API normally
+        stats = await api.system.get_stats()
+        print(f"  • Total users: {stats['total_user']}")
+        print(f"  • Active users: {stats['users_active']}")
+    
+    print("  ✅ Direct token authentication completed!")
+
+
 async def error_handling_example():
     """Example of error handling"""
     print("\n⚠️ Error Handling Example:")
@@ -186,4 +212,5 @@ if __name__ == "__main__":
     
     # Run additional examples
     asyncio.run(manual_authentication_example())
+    asyncio.run(direct_token_authentication_example())
     asyncio.run(error_handling_example()) 

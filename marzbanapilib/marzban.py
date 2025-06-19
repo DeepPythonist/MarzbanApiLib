@@ -15,26 +15,41 @@ class MarzbanAPI:
     This class provides a unified interface to all API sections through
     modular sub-APIs for better organization and maintainability.
     
-    Usage:
+    You can authenticate in two ways:
+    1. Using username and password (traditional method)
+    2. Using a pre-existing access token (direct token method)
+    
+    Usage with username/password:
         async with MarzbanAPI("http://127.0.0.1:8000", "admin", "password") as api:
-            # Access different API sections
             users = await api.user.get_users()
             stats = await api.system.get_stats()
-            nodes = await api.node.get_all()
+    
+    Usage with access token:
+        async with MarzbanAPI("http://127.0.0.1:8000", access_token="your_jwt_token") as api:
+            users = await api.user.get_users()
+            stats = await api.system.get_stats()
     """
     
-    def __init__(self, base_url: str, username: str, password: str):
+    def __init__(
+        self, 
+        base_url: str, 
+        username: Optional[str] = None, 
+        password: Optional[str] = None,
+        access_token: Optional[str] = None
+    ):
         """
         Initialize MarzbanAPI client.
         
         Args:
             base_url: Base URL of Marzban API (e.g. http://127.0.0.1:8000)
-            username: Admin username for authentication
-            password: Admin password for authentication
+            username: Admin username for authentication (optional if access_token provided)
+            password: Admin password for authentication (optional if access_token provided)
+            access_token: Pre-existing JWT token for direct authentication (optional)
         """
         self.base_url = base_url.rstrip('/')
         self.username = username
         self.password = password
+        self.access_token = access_token
         self.token: Optional[str] = None
         self.client = httpx.AsyncClient(timeout=30.0)
         
@@ -56,11 +71,18 @@ class MarzbanAPI:
     
     async def authenticate(self):
         """Authenticate with Marzban API and initialize all sections."""
-        self.token = await get_token_from_credentials(
-            self.username, 
-            self.password, 
-            self.base_url
-        )
+        # Use provided access token or get new token from credentials
+        if self.access_token:
+            self.token = self.access_token
+        else:
+            if not self.username or not self.password:
+                raise ValueError("Either access_token or both username and password must be provided")
+            
+            self.token = await get_token_from_credentials(
+                self.username, 
+                self.password, 
+                self.base_url
+            )
         
         # Initialize all API sections with shared client and token
         self.user = UserAPI(self.client, self.base_url, self.token)

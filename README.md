@@ -21,12 +21,14 @@ pip install marzbanapilib
 
 ## Quick Start
 
+### Authentication with Username/Password
+
 ```python
 import asyncio
 from marzbanapilib import MarzbanAPI
 
 async def main():
-    # Create API client
+    # Create API client using username and password
     async with MarzbanAPI(
         base_url="http://127.0.0.1:8000",
         username="admin", 
@@ -46,6 +48,25 @@ async def main():
         print(f"Created user: {user['username']}")
 
 # Run the async function
+asyncio.run(main())
+```
+
+### Authentication with Access Token
+
+```python
+import asyncio
+from marzbanapilib import MarzbanAPI
+
+async def main():
+    # Use pre-existing access token (no username/password needed)
+    async with MarzbanAPI(
+        base_url="http://127.0.0.1:8000",
+        access_token="your_jwt_token_here"
+    ) as api:
+        # Get system statistics
+        stats = await api.system.get_stats()
+        print(f"Total users: {stats['total_user']}")
+
 asyncio.run(main())
 ```
 
@@ -86,7 +107,12 @@ async with MarzbanAPI(...) as api:
 ### Manual Authentication
 
 ```python
+# With username/password
 api = MarzbanAPI("http://127.0.0.1:8000", "admin", "password")
+await api.authenticate()
+
+# Or with access token
+api = MarzbanAPI("http://127.0.0.1:8000", access_token="your_jwt_token")
 await api.authenticate()
 
 # Use the API
